@@ -1,0 +1,402 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    @layer base, demosupport;
+
+/* Register --angle. That way we can transition and animate it 😎 */
+@property --angle {
+	syntax: '<angle>';
+	initial-value: 0deg;
+	inherits: true;
+}
+/* Initial value for browsers that don’t support @property */
+:root {
+	--angle: 0deg;
+}
+
+/* The visualization */
+#visual {
+	/* Dimensions of the visualization */
+	--radius: 25vmin;
+	--tracksize: 5vmin;
+
+	/* Make it a circle, based on the dimensions */
+	width: calc(var(--radius) * 2 + var(--tracksize));
+	aspect-ratio: 1;
+	border-radius: 50%;
+	border: var(--tracksize) solid #ccc;
+	
+	/* Some generic positioning stuff */
+	margin: 0 auto;
+	position: relative;
+
+	/* Transition the angle value when updating it */
+	transition: --angle 0.5s ease-in-out;
+}
+
+/* The black dot */
+.dot {
+	/* Make it a circle */
+	display: block;
+	width: var(--tracksize);
+	aspect-ratio: 1;
+	border-radius: 50%;
+	
+	/* Center it */
+	position: absolute;
+	left: calc(50% - (var(--tracksize) / 2));
+	top: calc(50% - (var(--tracksize) / 2));
+	
+	/* Color it */
+	background: #333;
+	border: 1px solid #333;
+	
+	/* Position around center of parent, by taking --angle into account */
+	translate: calc(cos(var(--angle)) * var(--radius))      /* Translation on X-axis */
+		       calc(sin(var(--angle) * -1) * var(--radius)) /* Translation on Y-axis */
+	;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@layer demosupport {
+	
+	@layer lines {
+		/* Lines: Shared styles */
+		#visual::before, #visual::after,
+		.dot::before, .dot::after {
+			content: '';
+			display: block;
+			position: absolute;
+			left: calc(50% - 1px);
+			top: calc(50% - 1px);
+			transform-origin: 1px 1px;
+			z-index: 3;
+		}
+		
+		/* Line: Adjacent side */
+		#visual::before {
+			background: red;
+			height: 2px;
+			width: var(--radius);
+			transform: scaleX(calc(cos(var(--angle)))); /* Adjust scale on X axis by taking the cos() into account */
+		}
+
+		/* Line: Opposite side */
+		#visual::after {
+			background: blue;
+			width: 2px;
+			height: var(--radius);
+			transform: translateX(calc(cos(var(--angle)) * var(--radius))) /* Translate entire line on the X-axis so that it draws at the outer edge of the red line */
+					   scaleY(calc(sin(var(--angle) * -1)))                /* Adjust scale on Y axis by taking the sin() into account */
+			;
+		}
+
+		/* Line: Hypothenuse */
+		.dot::before {
+			background: yellow;
+			width: var(--radius);
+			height: 2px;
+			transform: rotate(calc(var(--angle) * -1)) /* Counterrotate to angle the .dot is at */
+					   translate(-100%, -50%)          /* Move back so that it appears to start from center */
+			;
+		}
+
+		/* Line: Tangent */
+		.dot::after {
+			background: lime;
+			width: var(--radius);
+			height: 2px;
+			rotate: calc(90deg + var(--angle) * -1);
+			transform: scaleX(tan(var(--angle)));
+		}
+		
+	}
+	
+	@layer angledebugger {
+		@property --progress {
+			syntax: '<number>';
+			initial-value: 0;
+			inherits: true;
+		}
+		:root {
+			--progress: 0;
+		}
+
+		svg {
+			position: absolute;
+			inset: calc(var(--tracksize) * -1);
+			width: calc(100% + var(--tracksize) + var(--tracksize));
+			height: calc(100% + var(--tracksize) + var(--tracksize));
+			z-index: 1;
+			pointer-events: none;
+		}
+		circle {
+			--radius: 45.5; /* = attr(r) */
+			--circumference: calc(var(--radius) * 3.141526 * 2);
+			transform-origin: 50% 50%;
+			transform: scaleY(-1);
+			stroke-dasharray: var(--circumference);
+			stroke-dashoffset: calc(var(--circumference) - (var(--circumference) * var(--progress)));
+
+			/* Transition the progress value when updating it */
+			transition: --progress 0.5s ease-in-out;
+		}
+	}
+
+	/* Layout things specific to this demo */
+	@layer layout {
+		details {
+			position: absolute;
+			left: 0.5rem;
+			top: 0.5rem;
+			border: 0.1rem solid #ccc;
+			border-radius: 0.2rem;
+			padding: 1rem;
+			background: rgb(116 170 238 / 88%);
+		}
+
+		label {
+			text-align: center;
+			display: block;
+		}
+		
+		footer {
+			text-align: center;
+			font-style: italic;
+		}
+	}
+}
+
+/* Non-demo styles below */
+@layer base {
+	@layer reset {
+		* {
+			box-sizing: border-box;
+		}
+		body {
+			margin: 0;
+			padding: 0;
+		}
+		html, body {
+			min-height: 100%;
+		}
+	}
+	@layer layout {
+		html {
+			max-width: 84ch;
+			padding: 3rem 2rem;
+			margin: auto;
+		}
+		body {
+			display: grid;
+			place-content: safe center;
+			gap: 2rem;
+		}
+
+		html {
+			--font-sans: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+			--font-serif: ui-serif,serif;
+			--font-mono: Dank Mono,Operator Mono,Inconsolata,Fira Mono,ui-monospace,SF Mono,Monaco,Droid Sans Mono,Source Code Pro,monospace;
+		}
+		body {
+			font-family: var(--font-sans);
+		}
+		pre, code {
+			font-family: var(--font-mono);
+			font-size: 0.8rem;
+		}
+		input, button {
+			font-family: inherit;
+		}
+
+		a,
+		a:visited {
+			color: blue;
+		}
+		
+		h2 {
+			margin-top: 2em;
+		}
+
+		summary {
+			cursor: pointer;
+		}
+
+		dd + dt {
+			margin-top: 0.5em;
+		}
+	}
+	
+	@layer code {
+		pre {
+			border: 1px solid #dedede;
+			padding: 1em;
+			background: #f7f7f7;
+			font-family: "Courier 10 Pitch", Courier, monospace;
+			overflow-x: auto;
+			border-left: 0.4em solid cornflowerblue;
+			tab-size: 4;
+		}
+		
+		code:not(pre code), output:not(code:has(output) output) {
+			background: #f7f7f7;
+			border: 1px solid rgb(0 0 0 / 0.2);
+			padding: 0.1rem 0.3rem;
+			margin: 0.1rem 0;
+			border-radius: 0.2rem;
+			display: inline-block;
+		}
+	}
+
+	@layer support {
+		.no-support,
+		.has-support {
+			margin: 1em 0;
+			padding: 1em;
+			border: 1px solid #ccc;
+		}
+
+		.no-support {
+			background-color: #ff00002b;
+		}
+		.no-support[data-level="warn"] {
+			background-color: #ffff002b;
+		}
+		.has-support {
+			background-color: #00ff002b;
+		}
+		
+		.no-support, [data-show-when-no-support] {
+			display: block !important;
+		}
+		.has-support, [data-show-when-has-support] {
+			display: none !important;
+		}
+
+		:is(.has-support, .no-support) > :first-child {
+			margin-top: 0;
+		}
+		:is(.has-support, .no-support) > :last-child {
+			margin-bottom: 0;
+		}
+
+		@supports (transform: scaleX(cos(360deg))) {
+			.no-support[data-support="css-trig-fns"] {
+				display: none !important;
+			}
+			.has-support[data-support="css-trig-fns"], [data-show-when-has-support="css-trig-fns"] {
+				display: block !important;
+			}
+		}
+	}
+}
+    </style>
+    <script>
+        const radius = 25;
+
+const $input = document.querySelector('#input');
+const $label = document.querySelector('[for="input"]');
+const $visual = document.querySelector('#visual');
+
+const $$angle = document.querySelectorAll('output[data-for="angle"]');
+const $$cos = document.querySelectorAll('output[data-for="cos"]');
+const $$sin = document.querySelectorAll('output[data-for="sin"]');
+const $$tan = document.querySelectorAll('output[data-for="tan"]');
+const $$adj = document.querySelectorAll('output[data-for="adj"]');
+const $$opp = document.querySelectorAll('output[data-for="opp"]');
+
+const degrees_to_radians = deg => (deg * Math.PI) / 180.0;
+
+const calc = () => {
+	// Update CSS Custom Property Value
+	const angle_in_degrees = $input.valueAsNumber;
+	document.documentElement.style.setProperty('--angle', `${angle_in_degrees}deg`);
+	
+	// Derive total progress [0-1] from angle
+	const progress = angle_in_degrees / 360;
+	document.documentElement.style.setProperty('--progress', progress);
+	
+	// Update outputs (not needed for CSS)
+	const angle_in_radians = degrees_to_radians(angle_in_degrees);
+	const cos = Math.cos(angle_in_radians);
+	const sin = Math.sin(angle_in_radians);
+	const tan = Math.tan(angle_in_radians);
+
+	$$angle.forEach($angle => $angle.innerText = angle_in_degrees.toString().padStart(3, '0'));
+	$$cos.forEach($cos => $cos.innerText = cos.toFixed(2));
+	$$sin.forEach($sin => $sin.innerText = sin.toFixed(2));
+	$$tan.forEach($tan => $tan.innerText = tan.toFixed(2));
+	$$adj.forEach($adj => $adj.innerText = (radius * cos).toFixed(2));
+	$$opp.forEach($opp => $opp.innerText = (radius * sin).toFixed(2));
+}
+
+$input.addEventListener('input', calc);
+calc();
+    </script>
+</head>
+<body>
+    <div class="no-support" data-support="css-trig-fns"><p>🚨 Your browser does not support the CSS Trigonometric Functions. Therefore, this demo will not work properly. Please try Safari 15.4, Firefox 108, or Chrome 111.</p></div>
+<div>
+	<label>
+		<code>--radius</code> = <code>25vmin</code>
+	</label>
+	<label for="input">
+		<code>--angle</code> = <code><output data-for="angle">030</output>deg</code><br>
+		<input type="range" min="0" max="360" step="15" value="30" id="input" />
+	</label>
+</div>
+
+<div id="visual">
+	<!-- The dot -->
+	<span class="dot" data-show-when-has-support="css-trig-fns"></span>
+	
+	<!-- The angle indicator -->
+	<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" data-show-when-has-support="css-trig-fns">
+        <circle cx="50" cy="50" r="45.5" stroke="#333" stroke-width="1" fill="transparent" />
+	</svg>
+</div>
+
+<details>
+	<summary>Debug</summary>
+	<dl>
+		<dt><code>--angle</code></dt>
+		<dd>= <code><output data-for="angle">0</output>deg</code></dd>
+		<dt><code>cos(--angle)</code></dt>
+		<dd>= <output data-for="cos">1.00</output></dd>
+		<dt><code>sin(--angle)</code></dt>
+		<dd>= <output data-for="sin">0.00</output></dd>
+		<dt><code>tan(--angle)</code></dt>
+		<dd>= <output data-for="tan">0.00</output></dd>
+		<dt><code>--radius</code></dt>
+		<dd>= <code>25vmin</code></dd>
+		<dt>Length of Hypothenuse <em>(yellow line)</em></dt>
+		<dd>= <code>--radius</code> = <code>25vmin</code></dd>
+		<dt>Length of adjacent side <em>(red line)</em></dt>
+		<dd>= hypothenuse * <code>cos(--angle)</code> = <code>25vmin</code> * <output data-for="cos">1.00</output> = <code><output data-for="adj">25</output>vmin</code></dd>
+		<dt>Lenght of opposite side <em>(blue line)</em></dt>
+		<dd>= hypothenuse * <code>sin(--angle)</code> = <code>25vmin</code> * <output data-for="sin">0.00</output> = <code><output data-for="opp">0</output>vmin</code></dd></dd>
+	</dl>
+</details>
+
+
+</body>
+</html>

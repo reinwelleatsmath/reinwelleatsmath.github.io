@@ -1,0 +1,30 @@
+.youtube{
+    height: 200px; 
+    width: 250px; background:-webkit-linear-gradient(
+        bottom, #6d0202 22%, #c90000 61%
+    ); border-radius: 50%/30px ;
+    box-shadow: 0px 15px 30px -5px #000000 ;
+    top: 20px;
+    margin: 20px;
+} 
+    .youtube::before{
+        content:"";
+        position:absolute ;
+        background:inherit ;
+        height: 155px;
+        width: 290px;
+        top: 30px;
+        margin-left: -20px;
+        border-radius: 30px/50%;
+    }
+    .youtube::after{
+        content:"";
+        position:absolute;
+        border-top: 80px solid white ; 
+        border-left: 40px transparent;
+        border-bottom: 40px transparent;
+        margin-top: 55px;
+        margin-left: 95px;
+    }
+
+     

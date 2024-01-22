@@ -1,0 +1,111 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+}
+.container{
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url(https://images.unsplash.com/photo-1603811594813-63f576d92fd0?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZGVlcCUyMHNwYWNlfGVufDB8fDB8fHww);
+    background-position: center;
+    background-size: cover;
+    padding-left: 8%;
+    padding-right: 8%;
+    box-sizing: border-box;
+}
+.navbar{
+    height: 12%;
+    display: flex;
+    align-items: center;
+}
+.logo{
+    width: 50px;
+    cursor: pointer;
+}
+.menu-icon{
+    width: 30px;
+    cursor: pointer;
+    margin-left: 40px;
+}
+nav{
+    flex: 1;
+    text-align: right;
+}
+nav ul li {
+    list-style: none;
+    display: inline-block;
+    margin-left: 60px;
+}
+nav ul li a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 15px;
+}
+.row{
+    display: flex;
+    height: 88%;
+    align-items: center;
+}
+.col{
+    flex-basis: 50%;
+}
+h1{
+    color:#fff;
+    font-size: 100px;
+    
+}
+p {
+    color: #fff;
+    font-size: 11px;
+    line-height: 15px;
+}
+button{
+    width: 180px;
+    color: #000;
+    font-size: 12px;
+    padding: 12px 0;
+    background: #fff;
+    border: 0;
+    border-radius: 20px;
+    outline: none;
+    margin-top: 30px;
+
+}
+.card{
+    width: 200px;
+    height: 230px;
+    display: inline-block;
+    border-radius: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 10px 15px;
+    background-position: center;
+    background-size: cover;
+    transition: transform 0.5s;
+
+} 
+.card1
+{ background-image: url(https://i.ytimg.com/vi/Un2v_pSIkJQ/maxresdefault.jpg);
+    
+}
+ 
+.card2
+{ background-image: url(https://icsblog.s3.ap-south-1.amazonaws.com/blog/wp-content/uploads/2022/12/09202211/particle-physics-astrophysics-astronomy-8f150b7-1024x683.jpg);
+}
+.card3
+{ background-image: url(https://www.degreequery.com/wp-content/uploads/2015/03/shutterstock_1672520713-astrophysicist-1.jpg);
+}
+.card4
+{ background-image: url(https://feeds.abplive.com/onecms/images/uploaded-images/2022/04/08/a112707661807dc5034b09a0b675588d_original.jpg?impolicy=abp_cdn&imwidth=650);
+}
+.card:hover{
+    transform: translateY(-10px);
+}
+h5 {
+    color: white;
+    text-shadow: 0 0 5px #999;
+}
+.card p{
+    text-shadow: 0 0 5px #000;
+    font-size: 8px;
+}

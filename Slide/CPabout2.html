@@ -1,0 +1,72 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <link rel="stylesheet" href="CPabout2.css">
+<div class="container">
+
+    <div class="slide">
+
+        
+        <div class="item" style="background-image: url(https://0utwqfl7.cdn.imgeng.in/explore-academics/programs/images/undergraduate/henson/physicsmajorMH.jpg);">
+            <div class="content">
+                <div class="name">Physics</div>
+                <div class="des">Physics is the natural science of matter, involving the study of matter, its fundamental constituents, its motion and behavior through space and time, and the related entities of energy and force.</div>
+                <button>See More</button>
+            </div>
+        </div>
+        <div class="item" style="background-image: url(https://t4.ftcdn.net/jpg/05/52/90/05/360_F_552900530_D4WF1c3zGsvIGfLgKaRBrEmbvPlk6O6E.jpg)">
+            <div class="content">
+                <div class="name">Chemestry</div>
+                <div class="des">Chemistry is a branch of natural science that deals principally with the properties of substances, the changes they undergo, and the natural laws that describe these changes.</div>
+                <button>See More</button>
+            </div>
+        </div>
+        <div class="item" style="background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO4q3q-4sDU8iem9ShBV_tEa6xBiWajv9D6g&usqp=CAU);">
+            <div class="content">
+                <div class="name">Biology</div>
+                <div class="des">Biology is a branch of science that deals with living organisms and their vital processes. Biology encompasses diverse fields, including botany, conservation, ecology, evolution, genetics, marine biology, medicine, microbiology, molecular biology, physiology, and zoology.</div>
+                <button>See More</button>
+            </div>
+        </div>
+        <div class="item" style="background-image: url(https://www.simplilearn.com/ice9/free_resources_article_thumb/What_is_the_Importance_of_Technology.jpg);">
+            <div class="content">
+                <div class="name">Technology</div>
+                <div class="des">The definition of technology is the application of scientific knowledge for practical purposes or applications. Technology uses scientific principles, and applies them to change the environment in which humans live. Technology can also use scientific principles to advance industry or other human constructions.</div>
+                <button>See More</button>
+            </div>
+        </div>
+        <div class="item" style="background-image: url(https://www.omazaki.co.id/system/uploads/2019/06/Engineering-1024x480.jpg);">
+            <div class="content">
+                <div class="name">Engeneering</div>
+                <div class="des">Engineering is the designing, testing and building of machines, structures and processes using maths and science. Studying it can lead to a rewarding career. Engineering is a discipline dedicated to problem solving.</div>
+                <button>See More</button>
+            </div>
+        </div>
+        <div class="item" style="background-image: url(https://static.wikia.nocookie.net/powerlisting/images/5/51/Mathematical_equations.jpg/revision/latest?cb=20120501125543);">
+            <div class="content">
+                <div class="name">Mathematics</div>
+                <div class="des">Mathematics is the science and study of quality, structure, space, and change. Mathematicians seek out patterns, formulate new conjectures, and establish truth by rigorous deduction from appropriately chosen axioms and definitions.</div>
+                <button>See More</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="button">
+        <button class="prev"><i class="fa-solid fa-arrow-left"></i></button>
+        <button class="next"><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+
+</div>
+<script>
+    let next = document.querySelector('.next')
+let prev = document.querySelector('.prev')
+
+next.addEventListener('click', function(){
+    let items = document.querySelectorAll('.item')
+    document.querySelector('.slide').appendChild(items[0])
+})
+
+prev.addEventListener('click', function(){
+    let items = document.querySelectorAll('.item')
+    document.querySelector('.slide').prepend(items[items.length - 1]) // here the length of items = 6
+})
+</script>
